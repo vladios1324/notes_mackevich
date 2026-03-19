@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".NotesActivity">
+    tools:context=".presentations.NotesActivity">
     
     <EditText
         android:id="@+id/et_search"
@@ -41,14 +41,16 @@
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_search">
-        
+        app:layout_constraintTop_toBottomOf="@id/et_search"
+        app:layout_constraintVertical_bias="1.0">
+
         <GridLayout
             android:id="@+id/gl_notes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:columnCount="2"/>
+            android:columnCount="2" />
 
     </ScrollView>
 

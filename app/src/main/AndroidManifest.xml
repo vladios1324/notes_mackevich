@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Notes_mackevich6">
         <activity
-            android:name=".NotesActivity"
-            android:exported="false" />
+            android:name=".presentations.NoteActivity"
+            android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".presentations.NotesActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentations.MainActivity"
+            android:exported="true"/>
     </application>
-
 </manifest>
