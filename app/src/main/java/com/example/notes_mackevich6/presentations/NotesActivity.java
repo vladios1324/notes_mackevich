@@ -1,21 +1,24 @@
 package com.example.notes_mackevich6.presentations;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.notes_mackevich6.R;
+import com.example.notes_mackevich6.datas.DbContext;
+import com.example.notes_mackevich6.datas.NotesContext;
 import com.example.notes_mackevich6.datas.RepoNotes;
 import com.example.notes_mackevich6.domains.models.Note;
 
@@ -27,6 +30,10 @@ public class NotesActivity extends AppCompatActivity {
     GridLayout itemsParent;
     View bthAddNotes;
     EditText etSearch;
+    DbContext dbContext;
+    ArrayList<Note> currentNotes = new ArrayList<>();
+    Button bthAll, bthFavorite;
+    boolean showOnlyFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +41,21 @@ public class NotesActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_notes);
 
-
-
         bthAddNotes = findViewById(R.id.btn_add_notes);
         itemsParent = findViewById(R.id.gl_notes);
         etSearch = findViewById(R.id.et_search);
+        bthAll = findViewById(R.id.btn_all);
+        bthFavorite = findViewById(R.id.btn_favorites);
+
+        bthAll.setOnClickListener(v -> {
+            showOnlyFavorite = false;
+            loadNotesFromDatabase();
+        });
+
+        bthFavorite.setOnClickListener(v -> {
+            showOnlyFavorite = true;
+            loadNotesFromDatabase();
+        });
 
         bthAddNotes.setOnClickListener(v -> {
             Intent intentActivityNote = new Intent(this, NoteActivity.class);
@@ -47,17 +64,29 @@ public class NotesActivity extends AppCompatActivity {
 
         etSearch.setOnKeyListener(SearchListner);
 
-        RepoNotes.Load(this);
-        LoadNotes(RepoNotes.Notes);
+        dbContext = new DbContext(this);
+
+        loadNotesFromDatabase();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        LoadNotes(RepoNotes.Notes);
+        loadNotesFromDatabase();
     }
 
-    public void LoadNotes(ArrayList<Note> notes) {
+    private void loadNotesFromDatabase() {
+        if(showOnlyFavorite) {
+            currentNotes = NotesContext.isFavoriteNotes();
+        } else
+            currentNotes = NotesContext.AllNotes();
+
+        RepoNotes.Notes = currentNotes;
+        RepoNotes.Save(this);
+        displayNotes(currentNotes);
+    }
+
+    public void displayNotes(ArrayList<Note> notes) {
         itemsParent.removeAllViews();
 
         for(int i = 0; i < notes.size(); i++) {
@@ -66,12 +95,22 @@ public class NotesActivity extends AppCompatActivity {
             TextView tvTitle = item_notes.findViewById(R.id.tv_title);
             TextView tvText = item_notes.findViewById(R.id.tv_text);
             TextView tvDate = item_notes.findViewById(R.id.tv_date);
+            ImageView ivFavorite = item_notes.findViewById(R.id.iv_favorite);
 
             tvTitle.setText(notes.get(i).title);
             tvText.setText(notes.get(i).text);
             tvDate.setText(notes.get(i).date);
 
+            applyNoteColor(item_notes, notes.get(i).color);
+
+            if(notes.get(i).isFavorite) {
+                ivFavorite.setImageResource(R.drawable.select_ic_favorite);
+            } else {
+                ivFavorite.setImageResource(R.drawable.ic_favorite);
+            }
+
             int Position = i;
+            int noteId = notes.get(i).id;
 
             item_notes.setOnClickListener(v -> {
                 Intent intentActivityNote = new Intent(this, NoteActivity.class);
@@ -85,14 +124,31 @@ public class NotesActivity extends AppCompatActivity {
 
     View.OnKeyListener SearchListner = new View.OnKeyListener() {
         @Override
-        public  boolean onKey(View v, int keyCode, KeyEvent event) {
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
             String Search = etSearch.getText().toString();
-            ArrayList<Note> FindNotes = RepoNotes.Notes.stream().filter(
-                    item -> item.text.contains(Search)
+
+            ArrayList<Note> FindNotes = currentNotes.stream().filter(
+                    item -> item.text.toLowerCase().contains(Search.toLowerCase()) ||
+                            item.title.toLowerCase().contains(Search.toLowerCase())
             ).collect(Collectors.toCollection(ArrayList::new));
 
-            LoadNotes(FindNotes);
+            displayNotes(FindNotes);
             return false;
         }
     };
+
+    private void applyNoteColor(View itemView, String colorHex) {
+        if (colorHex == null || colorHex.isEmpty()) return;
+
+        LinearLayout strip = itemView.findViewById(R.id.strip_color);
+        LinearLayout bg = itemView.findViewById(R.id.bg_color);
+
+        if (strip != null) {
+            strip.setBackgroundColor(Color.parseColor(colorHex));
+        }
+        if (bg != null) {
+            String transparent = "#30" + colorHex.substring(1);
+            bg.setBackgroundColor(Color.parseColor(transparent));
+        }
+    }
 }

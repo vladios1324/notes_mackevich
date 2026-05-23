@@ -6,5 +6,6 @@ public class Note {
     public String text;
     public String date;
     public String color;
+    public boolean isFavorite;
 }
 

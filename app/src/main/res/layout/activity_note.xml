@@ -30,15 +30,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/bth_favorite"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:padding="3dp"
+        android:src="@drawable/select_ic_favorite"
+        app:layout_constraintEnd_toStartOf="@+id/bth_trash"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/bth_select_color"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="17.5dp"
-        android:layout_marginRight="17.5dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="#2071F9"
         app:cardCornerRadius="15dp"
-        app:layout_constraintEnd_toStartOf="@+id/bth_trash"
+        app:layout_constraintEnd_toStartOf="@+id/bth_favorite"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -59,8 +70,8 @@
         app:layout_constraintTop_toBottomOf="@+id/bth_back" />
 
     <TextView
-        android:layout_width="match_parent"
         android:id="@+id/tv_date"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
