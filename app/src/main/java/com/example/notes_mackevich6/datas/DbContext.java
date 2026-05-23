@@ -17,7 +17,7 @@ public class DbContext extends SQLiteOpenHelper {
                 "Id integer primary key autoincrement," +
                 "Title text," +
                 "Text text," +
-                "Date text," +f
+                "Date text," +
                 "Color text," +
                 "IsFavorite integer default 0)");
     }
