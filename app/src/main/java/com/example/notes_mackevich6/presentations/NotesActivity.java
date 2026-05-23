@@ -135,7 +135,7 @@ public class NotesActivity extends AppCompatActivity {
             displayNotes(FindNotes);
             return false;
         }
-    };
+    };fs
 
     private void applyNoteColor(View itemView, String colorHex) {
         if (colorHex == null || colorHex.isEmpty()) return;

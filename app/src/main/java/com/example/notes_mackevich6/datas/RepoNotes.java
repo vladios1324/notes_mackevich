@@ -16,7 +16,7 @@ public class RepoNotes {
         String json = new Gson().toJson(Notes);
         context.getSharedPreferences("notes_db", Context.MODE_PRIVATE)
                 .edit()
-                .putString("data", json)ва
+                .putString("data", json)
                 .apply();
     }
 
