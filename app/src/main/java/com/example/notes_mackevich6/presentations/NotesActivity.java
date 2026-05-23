@@ -126,7 +126,7 @@ public class NotesActivity extends AppCompatActivity {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             String Search = etSearch.getText().toString();
-
+а
             ArrayList<Note> FindNotes = currentNotes.stream().filter(
                     item -> item.text.toLowerCase().contains(Search.toLowerCase()) ||
                             item.title.toLowerCase().contains(Search.toLowerCase())
@@ -135,7 +135,7 @@ public class NotesActivity extends AppCompatActivity {
             displayNotes(FindNotes);
             return false;
         }
-    };fs
+    };
 
     private void applyNoteColor(View itemView, String colorHex) {
         if (colorHex == null || colorHex.isEmpty()) return;

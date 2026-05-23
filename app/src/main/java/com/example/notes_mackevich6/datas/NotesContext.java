@@ -60,7 +60,7 @@ public class NotesContext {
             cursor.close();
             return FavoriteNotes;
         }
-f
+
         do {
             Note note = new Note();
             note.id = cursor.getInt(0);
