@@ -93,7 +93,7 @@ public class NoteActivity extends AppCompatActivity {
                 } else {
                     bthFavorite.setImageResource(R.drawable.ic_favorite);
                     Toast.makeText(this, "Удалено из избранного", Toast.LENGTH_SHORT).show();
-                }sf
+                }
 
                 NotesContext.Save(note, true);
                 RepoNotes.Notes = NotesContext.AllNotes();

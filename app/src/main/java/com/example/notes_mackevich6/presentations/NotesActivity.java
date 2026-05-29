@@ -126,7 +126,6 @@ public class NotesActivity extends AppCompatActivity {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             String Search = etSearch.getText().toString();
-а
             ArrayList<Note> FindNotes = currentNotes.stream().filter(
                     item -> item.text.toLowerCase().contains(Search.toLowerCase()) ||
                             item.title.toLowerCase().contains(Search.toLowerCase())
